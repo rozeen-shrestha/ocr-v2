@@ -20,8 +20,10 @@ RUN mkdir -p ${TESSDATA_PREFIX}
 RUN curl -L -o ${TESSDATA_PREFIX}eng.traineddata https://github.com/tesseract-ocr/tessdata_fast/raw/main/eng.traineddata \
  && curl -L -o ${TESSDATA_PREFIX}osd.traineddata https://github.com/tesseract-ocr/tessdata_fast/raw/main/osd.traineddata
 
-# Configure OpenMP multi-threading for fast single-image throughput without thread locks
-ENV OMP_THREAD_LIMIT=2
+# Configure OpenMP to prevent CPU busy-spinning / thread hogging
+ENV OMP_NUM_THREADS=1
+ENV OMP_THREAD_LIMIT=1
+ENV OMP_WAIT_POLICY=PASSIVE
 ENV OMP_DYNAMIC=FALSE
 
 WORKDIR /app

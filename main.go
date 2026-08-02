@@ -16,8 +16,10 @@ func main() {
 		log.Println("Loaded .env successfully")
 	}
 
-	// Tune OpenMP multi-threading to 2 threads per image to eliminate thread lock contention
-	os.Setenv("OMP_THREAD_LIMIT", "2")
+	// Strict single-thread limit + PASSIVE wait policy to stop CPU busy-spinning/hogging
+	os.Setenv("OMP_NUM_THREADS", "1")
+	os.Setenv("OMP_THREAD_LIMIT", "1")
+	os.Setenv("OMP_WAIT_POLICY", "PASSIVE")
 	os.Setenv("OMP_DYNAMIC", "FALSE")
 
 	port := os.Getenv("PORT")
@@ -34,6 +36,6 @@ func main() {
 		Handler: mux,
 	}
 
-	log.Printf("Quotient OCR v2 API listening on 0.0.0.0:%s (EPYC 4-vCPU ultra-fast mode)\n", port)
+	log.Printf("Quotient OCR v2 API listening on 0.0.0.0:%s (Low-CPU mode)\n", port)
 	log.Fatal(s.ListenAndServe())
 }
