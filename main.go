@@ -7,6 +7,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/quotientbot/ocr_v2/routers"
+	"github.com/quotientbot/ocr_v2/tools"
 )
 
 func main() {
@@ -22,6 +23,9 @@ func main() {
 	os.Setenv("OMP_WAIT_POLICY", "PASSIVE")
 	os.Setenv("OMP_DYNAMIC", "FALSE")
 
+	// Pre-warm Tesseract client pool at startup so the first request is instant
+	tools.WarmPool()
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
@@ -36,6 +40,6 @@ func main() {
 		Handler: mux,
 	}
 
-	log.Printf("Quotient OCR v2 API listening on 0.0.0.0:%s (Low-CPU mode)\n", port)
+	log.Printf("Quotient OCR v2 API listening on 0.0.0.0:%s (Low-CPU pooled mode)\n", port)
 	log.Fatal(s.ListenAndServe())
 }
