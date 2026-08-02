@@ -16,12 +16,12 @@ RUN apt-get update -qq && apt-get install -y -qq \
 ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/5/tessdata/
 RUN mkdir -p ${TESSDATA_PREFIX}
 
-# Download high-precision tessdata_best models for maximum LSTM accuracy
-RUN curl -L -o ${TESSDATA_PREFIX}eng.traineddata https://github.com/tesseract-ocr/tessdata_best/raw/main/eng.traineddata \
- && curl -L -o ${TESSDATA_PREFIX}osd.traineddata https://github.com/tesseract-ocr/tessdata_best/raw/main/osd.traineddata
+# Download high-speed tessdata_fast models (sub-200ms recognition speed)
+RUN curl -L -o ${TESSDATA_PREFIX}eng.traineddata https://github.com/tesseract-ocr/tessdata_fast/raw/main/eng.traineddata \
+ && curl -L -o ${TESSDATA_PREFIX}osd.traineddata https://github.com/tesseract-ocr/tessdata_fast/raw/main/osd.traineddata
 
-# Configure OpenMP multi-threading to leverage AMD EPYC 9355P (4 vCPUs)
-ENV OMP_THREAD_LIMIT=4
+# Configure OpenMP multi-threading for fast single-image throughput without thread locks
+ENV OMP_THREAD_LIMIT=2
 ENV OMP_DYNAMIC=FALSE
 
 WORKDIR /app

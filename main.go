@@ -16,8 +16,8 @@ func main() {
 		log.Println("Loaded .env successfully")
 	}
 
-	// Optimize OpenMP multi-threading for AMD EPYC 9355P (4 vCPUs)
-	os.Setenv("OMP_THREAD_LIMIT", "4")
+	// Tune OpenMP multi-threading to 2 threads per image to eliminate thread lock contention
+	os.Setenv("OMP_THREAD_LIMIT", "2")
 	os.Setenv("OMP_DYNAMIC", "FALSE")
 
 	port := os.Getenv("PORT")
@@ -34,6 +34,6 @@ func main() {
 		Handler: mux,
 	}
 
-	log.Printf("Quotient OCR v2 API listening on 0.0.0.0:%s (EPYC 4-vCPU optimized)\n", port)
+	log.Printf("Quotient OCR v2 API listening on 0.0.0.0:%s (EPYC 4-vCPU ultra-fast mode)\n", port)
 	log.Fatal(s.ListenAndServe())
 }
