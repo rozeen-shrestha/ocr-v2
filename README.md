@@ -4,23 +4,30 @@ High-performance, high-accuracy OCR microservice optimized for **AMD EPYC 9355P 
 
 ---
 
-## ⚡ 1-Command Setup & Run
+## ⚡ Quick Start Scripts
 
-On your VPS, run **one command** to automatically create configuration, build the Docker container, run it, and verify health:
-
+### 1-Click Initial Setup & Run
+Run once on a fresh VPS to install Docker, build the container, dynamically configure the port from `.env`, and start the service:
 ```bash
 cd ocr_v2
 bash setup.sh
 ```
 
----
-
-## 🔄 1-Command Update (After Code Changes)
-
-Whenever you edit any code in `ocr_v2/`, rebuild and restart with a single command:
-
+### Persistent Start (Background / Non-closing)
+Starts the service persistently in background mode (`-d` and `--restart unless-stopped`). Closing your SSH terminal window will **not** stop the service:
 ```bash
 cd ocr_v2
+bash start.sh
+```
+
+### Stop Service
+```bash
+bash stop.sh
+```
+
+### 1-Click Update (After Code Changes)
+Rebuilds and restarts the service on the configured `.env` port:
+```bash
 bash update.sh
 ```
 

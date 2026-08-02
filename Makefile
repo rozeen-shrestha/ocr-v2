@@ -1,7 +1,13 @@
-.PHONY: setup update build run stop rm docker-build docker-run docker-stop
+.PHONY: setup start stop update build run docker-build docker-run docker-stop
 
 setup:
 	bash setup.sh
+
+start:
+	bash start.sh
+
+stop:
+	bash stop.sh
 
 update:
 	bash update.sh
