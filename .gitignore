@@ -1,0 +1,14 @@
+# Binaries
+ocr_v2
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Environment variables
+.env
+
+# Docker / Temp
+*.log
+.DS_Store
