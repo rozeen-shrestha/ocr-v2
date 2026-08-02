@@ -31,7 +31,8 @@ RUN go mod download || true
 
 COPY . .
 
-RUN go build -v -o /app/ocr_v2 .
+# Automatically tidy modules and build binary
+RUN go mod tidy && go build -v -o /app/ocr_v2 .
 
 EXPOSE 8080
 CMD ["/app/ocr_v2"]
