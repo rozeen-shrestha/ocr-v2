@@ -26,12 +26,9 @@ ENV OMP_DYNAMIC=FALSE
 
 WORKDIR /app
 
-COPY go.mod go.sum ./
-RUN go mod download || true
-
 COPY . .
 
-# Automatically tidy modules and build binary
+# Regenerate module checksums and build binary
 RUN go mod tidy && go build -v -o /app/ocr_v2 .
 
 EXPOSE 8080
